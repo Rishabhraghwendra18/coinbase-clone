@@ -21,8 +21,11 @@ function Navbar() {
           </Typography>
           <Typography className={styles.walletAddress}>{walletAddress.slice(0,7)}...{walletAddress.slice(35)}</Typography>
         </div>
+        <Button variant="contained" className={styles.walletConnectBuySellButton}>
+          Buy/Sell
+        </Button>
         <Button color="inherit" className={styles.walletConnectButton}>
-          Login
+          Send/Receive
         </Button>
       </Toolbar>
     </AppBar>

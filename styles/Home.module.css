@@ -16,3 +16,17 @@
 .mainContainer{
     flex: 1;
 }
+.walletConnet{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.details{
+  font-size: 1.2rem;
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: 500;
+  color: #282b2f;
+}

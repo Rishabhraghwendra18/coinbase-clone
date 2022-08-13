@@ -2,8 +2,8 @@ import React from "react";
 import { Box, AppBar, Toolbar, Typography, Button } from "@mui/material";
 import styles from "./index.module.css";
 
-function Navbar() {
-  const walletAddress = "0x46bEAac2b2c7637dc1E5d091A1D54a5a12958c02";
+function Navbar({walletAddress}) {
+  console.log("wallet: ",walletAddress)
   return (
     <AppBar position="static" className={styles.container}>
       <Toolbar>
@@ -19,7 +19,7 @@ function Navbar() {
           <Typography className={styles.walletAddressTitle}>
             Wallet Connected
           </Typography>
-          <Typography className={styles.walletAddress}>{walletAddress.slice(0,7)}...{walletAddress.slice(35)}</Typography>
+          <Typography className={styles.walletAddress}>{walletAddress?.slice(0,7)}...{walletAddress?.slice(35)}</Typography>
         </div>
         <Button variant="contained" className={styles.walletConnectBuySellButton}>
           Buy/Sell

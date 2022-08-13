@@ -1,0 +1,39 @@
+.container{
+    flex: 1;
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+.content{
+    width: 100%;
+    max-width: 1000px;
+    padding: 2rem 1rem;
+}
+.chart{
+    border: 1px solid #282b2f;
+  padding: 1rem 2rem;
+  border-radius: 10px;
+}
+.balanceTitle{
+    color: #8a919e;
+  font-size: 0.9rem;
+}
+.balanceValue{
+    font-size: 1.8rem;
+  font-weight: 700;
+  margin: 0.5rem 0;
+}
+.portfolioTable{
+    margin-top: 1rem;
+  border: 1px solid #282b2f;
+  /* background-color: #0a0b0d; */
+  border-radius: 10px;
+  /* color: white !important; */
+}
+.title{
+    font-size: 1.5rem !important;
+  font-weight: 600 !important;
+  caption-side: top !important;
+  /* border-bottom: 1px solid #8a919e; */
+  color: white !important;
+}

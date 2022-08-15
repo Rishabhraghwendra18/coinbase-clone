@@ -1,9 +1,11 @@
-import React from "react";
+import React,{useState} from "react";
 import { Box, AppBar, Toolbar, Typography, Button } from "@mui/material";
 import styles from "./index.module.css";
+import ModalForSendAndReceive from "./Modal";
 
-function Navbar({walletAddress}) {
-  console.log("wallet: ",walletAddress)
+function Navbar({userWalletAddress}) {
+  const [isOpen,setIsOpen] = useState(false);
+  console.log("wallet: ",userWalletAddress)
   return (
     <AppBar position="static" className={styles.container}>
       <Toolbar>
@@ -19,15 +21,16 @@ function Navbar({walletAddress}) {
           <Typography className={styles.walletAddressTitle}>
             Wallet Connected
           </Typography>
-          <Typography className={styles.walletAddress}>{walletAddress?.slice(0,7)}...{walletAddress?.slice(35)}</Typography>
+          <Typography className={styles.walletAddress}>{userWalletAddress?.slice(0,7)}...{userWalletAddress?.slice(35)}</Typography>
         </div>
         <Button variant="contained" className={styles.walletConnectBuySellButton}>
           Buy/Sell
         </Button>
-        <Button color="inherit" className={styles.walletConnectButton}>
+        <Button color="inherit" className={styles.walletConnectButton} onClick={()=>setIsOpen(true)}>
           Send/Receive
         </Button>
       </Toolbar>
+      <ModalForSendAndReceive isOpen={isOpen} onClose={()=>setIsOpen(false)}/>
     </AppBar>
   );
 }

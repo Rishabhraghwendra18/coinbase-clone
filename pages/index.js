@@ -1,8 +1,8 @@
-import Head from "next/head";
-import Image from "next/image";
+import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
-import { alpha, styled } from "@mui/material/styles";
-import { useAddress, useDisconnect, useMetamask } from "@thirdweb-dev/react";
+import { styled } from "@mui/material/styles";
+// import { useAddress, useDisconnect, useMetamask } from "@thirdweb-dev/react";
+import { useMoralis } from "react-moralis";
 import Navbar from "./components/Navbar";
 import styles from "../styles/Home.module.css";
 import Portfolio from "./components/Portfolio";
@@ -23,15 +23,40 @@ const CustomeButton = styled(Button)(() => ({
 }));
 
 export default function Home() {
-  const connectWithMetamask = useMetamask();
-  const walletAddress = useAddress();
+  const { authenticate, isAuthenticated, logout } = useMoralis();
+  const [userWalletAddress, setUserWalletAddress] = useState();
+  // const connectWithMetamask = useMetamask();
+  // const walletAddress = useAddress();
+
+  const login = async () => {
+    if (!isAuthenticated) {
+      await authenticate({ signingMessage: "Log in to coinbase clone" })
+        .then(function (user) {
+          console.log("logged in user:", user);
+          console.log(user?.get("ethAddress"));
+          setUserWalletAddress(user?.get("ethAddress"));
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+  };
+
+  const logOut = async () => {
+    await logout();
+    setUserWalletAddress();
+    console.log("logged out");
+  };
+  useEffect(() => {
+    return () => logOut();
+  }, []);
   return (
     <>
-      {walletAddress ? (
+      {userWalletAddress ? (
         <div className={styles.container}>
           <SideBar />
           <div className={styles.mainContainer}>
-            <Navbar walletAddress={walletAddress}/>
+            <Navbar userWalletAddress={userWalletAddress} />
             <div className={styles.main}>
               <Portfolio />
               <Promo />
@@ -40,7 +65,9 @@ export default function Home() {
         </div>
       ) : (
         <div className={styles.walletConnet}>
-          <CustomeButton variant="contained" onClick={connectWithMetamask}>Connect Wallet</CustomeButton>
+          <CustomeButton variant="contained" onClick={login}>
+            Connect Wallet
+          </CustomeButton>
           <div className={styles.details}>
             You need Chrome to be
             <br /> able to run this app.

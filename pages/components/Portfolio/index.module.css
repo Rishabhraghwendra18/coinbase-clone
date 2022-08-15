@@ -37,3 +37,18 @@
   /* border-bottom: 1px solid #8a919e; */
   color: white !important;
 }
+.nameCol{
+  display: flex;
+  align-items: center;
+}
+.coinIcon{
+  width: 1.8rem;
+  margin-right: 1rem;
+}
+.primary{
+  margin-bottom: 0.1rem;
+}
+.secondary{
+  color: #8a919e;
+  font-size: 0.8rem;
+}

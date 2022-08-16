@@ -1,6 +1,7 @@
 import React from "react";
 import { Modal, Box, Tabs, Tab, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import SendCrypto from "./SendCrypto";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -21,8 +22,11 @@ function TabPanel(props) {
     </div>
   );
 }
-function ModalForSendAndReceive({isOpen,onClose}) {
+function ModalForSendAndReceive({ isOpen, onClose }) {
   const [value, setValue] = React.useState(0);
+  const unselectedStyle = {
+    border: '1px solid #282b2f',
+  }
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -32,6 +36,34 @@ function ModalForSendAndReceive({isOpen,onClose}) {
     "justify-content": "space-evenly",
     "align-items": "center",
     height: "5rem",
+    padding:0,
+    borderBottom: "none !important",
+    '.MuiTabs-flexContainer':{
+      width:'100%',
+      height:'100%',
+    },
+    ".MuiTabs-indicator": {
+      display: "none",
+    },
+    ".MuiTabs-scroller": {
+      height: "100%",
+      display: "flex",
+      "justify-content": "center",
+      "align-items": "center",
+    },
+  }));
+  const CustomTab = styled(Tab)(() => ({
+    height: "100%",
+    width: "fit-content",
+    flex: "auto",
+    display: "grid",
+    "place-items": "center",
+    "font-size": "1.2rem",
+    "font-weight": 600,
+    "&:hover": {
+      cursor: "pointer",
+      "background-color": "#323131",
+    },
   }));
   const style = {
     position: "absolute",
@@ -43,6 +75,7 @@ function ModalForSendAndReceive({isOpen,onClose}) {
     border: "2px solid #000",
     boxShadow: 24,
     p: 4,
+    padding:0,
   };
   function a11yProps(index) {
     return {
@@ -56,22 +89,23 @@ function ModalForSendAndReceive({isOpen,onClose}) {
       onClose={onClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
+      style={{ padding: 0 }}
     >
       <Box sx={style}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs
+        <Box>
+          <CustomeTabs
             value={value}
             onChange={handleChange}
             aria-label="basic tabs example"
           >
-            <Tab label="Send" {...a11yProps(0)} />
-            <Tab label="Receive" {...a11yProps(1)} />
-          </Tabs>
+            <CustomTab label="Send" {...a11yProps(0)} style={value !==0 ? unselectedStyle : null}/>
+            <CustomTab label="Receive" {...a11yProps(1)} style={value !==1 ? unselectedStyle : null}/>
+          </CustomeTabs>
         </Box>
-        <TabPanel value={value} index={0}>
-          Send
+        <TabPanel value={value} index={0} >
+          <SendCrypto/>
         </TabPanel>
-        <TabPanel value={value} index={1}>
+        <TabPanel value={value} index={1} >
           Receive
         </TabPanel>
       </Box>

@@ -2,6 +2,7 @@ import React from "react";
 import { Modal, Box, Tabs, Tab, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import SendCrypto from "./SendCrypto";
+import ReceiveCrypto from "./ReceiveCrypto";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -106,7 +107,7 @@ function ModalForSendAndReceive({ isOpen, onClose }) {
           <SendCrypto/>
         </TabPanel>
         <TabPanel value={value} index={1} >
-          Receive
+          <ReceiveCrypto/>
         </TabPanel>
       </Box>
     </Modal>

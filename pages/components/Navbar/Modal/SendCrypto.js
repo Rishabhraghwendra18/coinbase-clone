@@ -21,14 +21,27 @@ const CustomButton = styled(Button)(() => ({
   },
 }));
 function SendCrypto() {
-  const { loggedInUserDetails } = useContext(UserContext);
+  const { loggedInUserDetails, setRefreshDashboard, refreshDashboard } =
+    useContext(UserContext);
   const [transferValue, setTransferValue] = useState();
   const [receiverAddress, setReceiverAddress] = useState();
-  const { fetch, error, isFetching } = useWeb3Transfer({
-    amount: transferValue ? Moralis.Units.ETH(transferValue):Moralis.Units.ETH('0.0'),
+  const [isFetching,setIsFetching] = useState(false);
+  let options = {
+    amount: transferValue
+      ? Moralis.Units.ETH(transferValue)
+      : Moralis.Units.ETH("0.0"),
     receiver: receiverAddress,
     type: "native",
-  });
+  };
+  // const { fetch, error, isFetching } = useWeb3Transfer(options);
+  const makeTxn = async () => {
+    setIsFetching(true);
+    const transaction = await Moralis.transfer(options);
+    const result = await transaction.wait();
+    console.log("txn result: ", result);
+    setIsFetching(false);
+    setRefreshDashboard(!refreshDashboard);
+  };
   return (
     <div className={styles.container}>
       <div className={styles.amount}>
@@ -68,12 +81,10 @@ function SendCrypto() {
       </div>
       <div className={styles.row}>
         <CustomButton
-          onClick={() => {
-            // if (typeof transferWei === "function") transferWei();
-            fetch();
-            
-          }}
-          disabled={transferValue && !isFetching ? false : true}
+          onClick={makeTxn}
+          disabled={
+            transferValue && receiverAddress && !isFetching ? false : true
+          }
         >
           Continue
         </CustomButton>
@@ -81,7 +92,9 @@ function SendCrypto() {
       <div className={styles.row}>
         <div className={styles.balanceTitle}>MATIC Balance</div>
         <div className={styles.balance}>
-          {loggedInUserDetails.userBalance?.toString().slice(0, 6)} MATIC
+          {isFetching
+            ? "Fetching..."
+            : `${loggedInUserDetails.userBalance?.toString().slice(0, 6)} MATIC`}
         </div>
       </div>
     </div>

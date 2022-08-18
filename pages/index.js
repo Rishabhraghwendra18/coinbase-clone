@@ -27,6 +27,7 @@ export default function Home() {
   const { authenticate, isAuthenticated, logout } = useMoralis();
   const [userWalletAddress, setUserWalletAddress] = useState();
   const [loggedInUserDetails,setLoggedInUserDetails] = useState({});
+  const [refreshDashboard,setRefreshDashboard] = useState(false);
   // const connectWithMetamask = useMetamask();
   // const walletAddress = useAddress();
 
@@ -53,7 +54,7 @@ export default function Home() {
     return () => logOut();
   }, []);
   return (
-    <UserContext.Provider value={{loggedInUserDetails,setLoggedInUserDetails}}>
+    <UserContext.Provider value={{loggedInUserDetails,setLoggedInUserDetails,refreshDashboard,setRefreshDashboard}}>
       {loggedInUserDetails.walletAddress ? (
         <div className={styles.container}>
           <SideBar />

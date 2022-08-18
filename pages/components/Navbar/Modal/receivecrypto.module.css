@@ -12,6 +12,7 @@
     flex: 1;
   display: grid;
   place-items: center;
+  margin-bottom: 0.1rem;
 }
 .row{
     display: flex;

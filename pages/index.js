@@ -3,6 +3,7 @@ import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 // import { useAddress, useDisconnect, useMetamask } from "@thirdweb-dev/react";
 import { useMoralis } from "react-moralis";
+import UserContext from "../Utils/context";
 import Navbar from "./components/Navbar";
 import styles from "../styles/Home.module.css";
 import Portfolio from "./components/Portfolio";
@@ -25,6 +26,7 @@ const CustomeButton = styled(Button)(() => ({
 export default function Home() {
   const { authenticate, isAuthenticated, logout } = useMoralis();
   const [userWalletAddress, setUserWalletAddress] = useState();
+  const [loggedInUserDetails,setLoggedInUserDetails] = useState({});
   // const connectWithMetamask = useMetamask();
   // const walletAddress = useAddress();
 
@@ -34,7 +36,7 @@ export default function Home() {
         .then(function (user) {
           console.log("logged in user:", user);
           console.log(user?.get("ethAddress"));
-          setUserWalletAddress(user?.get("ethAddress"));
+          setLoggedInUserDetails({...loggedInUserDetails,walletAddress:user?.get("ethAddress")});
         })
         .catch(function (error) {
           console.log(error);
@@ -51,8 +53,8 @@ export default function Home() {
     return () => logOut();
   }, []);
   return (
-    <>
-      {userWalletAddress ? (
+    <UserContext.Provider value={{loggedInUserDetails,setLoggedInUserDetails}}>
+      {loggedInUserDetails.walletAddress ? (
         <div className={styles.container}>
           <SideBar />
           <div className={styles.mainContainer}>
@@ -74,6 +76,6 @@ export default function Home() {
           </div>
         </div>
       )}
-    </>
+    </UserContext.Provider>
   );
 }

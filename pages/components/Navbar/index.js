@@ -1,11 +1,13 @@
-import React,{useState} from "react";
+import React,{useState, useContext} from "react";
 import { Box, AppBar, Toolbar, Typography, Button } from "@mui/material";
+import UserContext from "../../../Utils/context";
 import styles from "./index.module.css";
 import ModalForSendAndReceive from "./Modal";
 
-function Navbar({userWalletAddress}) {
+function Navbar() {
   const [isOpen,setIsOpen] = useState(false);
-  console.log("wallet: ",userWalletAddress)
+  const {loggedInUserDetails} =  useContext(UserContext);
+  console.log("wallet: ",loggedInUserDetails)
   return (
     <AppBar position="static" className={styles.container}>
       <Toolbar>
@@ -21,7 +23,7 @@ function Navbar({userWalletAddress}) {
           <Typography className={styles.walletAddressTitle}>
             Wallet Connected
           </Typography>
-          <Typography className={styles.walletAddress}>{userWalletAddress?.slice(0,7)}...{userWalletAddress?.slice(35)}</Typography>
+          <Typography className={styles.walletAddress}>{loggedInUserDetails?.walletAddress?.slice(0,7)}...{loggedInUserDetails?.walletAddress?.slice(35)}</Typography>
         </div>
         <Button variant="contained" className={styles.walletConnectBuySellButton}>
           Buy/Sell

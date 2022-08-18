@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useContext} from "react";
 import { Modal, Box, Tabs, Tab, Typography } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import SendCrypto from "./SendCrypto";

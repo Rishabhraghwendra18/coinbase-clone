@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import { useMoralisWeb3Api } from "react-moralis";
 import { Moralis } from "moralis";
 import {
@@ -11,14 +11,16 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
+import Image from "next/image";
+import UserContext from "../../../Utils/context";
 import BalanceChart from "../BalanceChart";
 import styles from "./index.module.css";
-import Image from "next/image";
 import maticLogo from "../../../assets/matic.png";
 
 function Portfolio() {
   const [userBalance, setUserBalance] = useState();
   const [maticUSDPrice, setMaticUSDPrice] = useState();
+  const {loggedInUserDetails,setLoggedInUserDetails} = useContext(UserContext);
   function createData(name, balance, price, allocation) {
     return { name, balance, price, allocation };
   }
@@ -28,6 +30,7 @@ function Portfolio() {
       chain: "mumbai",
     };
     const balances = await Web3Api.account.getNativeBalance(option);
+    setLoggedInUserDetails({...loggedInUserDetails,userBalance:Moralis.Units.FromWei(balances.balance)})
     setUserBalance(Moralis.Units.FromWei(balances.balance));
     console.log(balances);
   };

@@ -1,0 +1,10 @@
+.title {
+  width: 100%;
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+.coinList {
+  display: flex;
+  flex-direction: column;
+}

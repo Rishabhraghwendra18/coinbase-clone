@@ -6,6 +6,7 @@ import { Moralis } from "moralis";
 import { FaWallet, FaBitcoin } from "react-icons/fa";
 import UserContext from "../../../../Utils/context";
 import styles from "./sendcrypto.module.css";
+import CoinSelector from "./Components";
 
 const CustomButton = styled(Button)(() => ({
   color: "white",
@@ -23,6 +24,7 @@ const CustomButton = styled(Button)(() => ({
 function SendCrypto() {
   const { loggedInUserDetails, setRefreshDashboard, refreshDashboard } =
     useContext(UserContext);
+  const [showCoinSelector,setShowCoinSelector] = useState(false);
   const [transferValue, setTransferValue] = useState();
   const [receiverAddress, setReceiverAddress] = useState();
   const [isFetching,setIsFetching] = useState(false);
@@ -43,6 +45,10 @@ function SendCrypto() {
     setRefreshDashboard(!refreshDashboard);
   };
   return (
+    <>
+    {showCoinSelector ? (
+      <CoinSelector/>
+     ):( 
     <div className={styles.container}>
       <div className={styles.amount}>
         <div className={styles.flexInputContainer}>
@@ -71,7 +77,7 @@ function SendCrypto() {
         <Divider />
         <div className={styles.row}>
           <div className={styles.fieldName}>Pay With</div>
-          <div className={styles.coinSelectList}>
+          <div className={styles.coinSelectList} onClick={()=>setShowCoinSelector(true)}>
             <div className={styles.icon}>
               <FaBitcoin />
             </div>
@@ -98,6 +104,8 @@ function SendCrypto() {
         </div>
       </div>
     </div>
+    )} 
+    </>
   );
 }
 

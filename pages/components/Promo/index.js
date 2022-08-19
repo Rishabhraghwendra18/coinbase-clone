@@ -22,7 +22,7 @@ function Promo() {
         Earn up CO 2.84% APY on your crypto
         </div>
         <div className={styles.placeholder} />
-        <div className={styles.additional} style={{ color: '#3773f5' }}>
+        <div className={styles.additional} style={{ color: '#3773f5',cursor:'pointer' }}>
         Verify Identity
         </div>
       </div>

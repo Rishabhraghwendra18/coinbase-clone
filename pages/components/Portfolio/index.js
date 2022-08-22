@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useCallback, useMemo } from "react";
 import { useMoralisWeb3Api } from "react-moralis";
 import { Moralis } from "moralis";
 import {
@@ -19,9 +19,12 @@ import styles from "./index.module.css";
 import maticLogo from "../../../assets/matic.png";
 
 function Portfolio() {
+  const [isFirstRender, setIsFirstRender] = useState(true);
   const [userBalance, setUserBalance] = useState();
   const [maticUSDPrice, setMaticUSDPrice] = useState();
   const [isFetching, setIsFetching] = useState(true);
+  const [rows, setRows] = useState([]);
+  const [totalPortfolioBalance, setTotalPortfolioBalance] = useState(0);
   const {
     loggedInUserDetails,
     setLoggedInUserDetails,
@@ -32,18 +35,21 @@ function Portfolio() {
     return { name, balance, price, allocation };
   }
   const Web3Api = useMoralisWeb3Api();
+
   const fetchTokenBalances = async () => {
     setIsFetching(true);
     const option = {
       chain: "mumbai",
     };
     const balances = await Web3Api.account.getNativeBalance(option);
+    const userTokens = await Web3Api.account.getTokenBalances(option);
     setLoggedInUserDetails({
       ...loggedInUserDetails,
       userBalance: Moralis.Units.FromWei(balances.balance),
+      tokenBalance: userTokens,
     });
     setUserBalance(Moralis.Units.FromWei(balances.balance));
-    console.log(balances);
+    console.log("balances: ", userTokens);
   };
   const fetchTokenPrice = async () => {
     const options = {
@@ -54,20 +60,44 @@ function Portfolio() {
     console.log("price: ", price);
     setIsFetching(false);
   };
+  const createRows = () => {
+    let rows = [];
+    const portfolioValue = maticUSDPrice;
+    if (loggedInUserDetails.tokenBalance) {
+      rows = loggedInUserDetails.tokenBalance?.map((e) => {
+        const token = {
+          name: e.name,
+          balance: e.balance / 1000000000000000000,
+          allocation: 100,
+        };
+        if (e.name === "USDC" || e.name === "USDT") {
+          token.price = 1;
+          portfolioValue += token.balance * 1;
+          return token;
+        } else {
+          token.price = 35;
+          portfolioValue += token.balance * 35;
+          return token;
+        }
+      });
+    }
+    console.log("rows: ", rows);
+    setTotalPortfolioBalance(portfolioValue);
+    setRows([
+      createData(
+        "Matic",
+        userBalance?.toString().slice(0, 6),
+        maticUSDPrice?.toString().slice(0, 4),
+        100
+      ),
+      ...rows
+    ]);
+  };
   useEffect(() => {
-    fetchTokenBalances();
     fetchTokenPrice();
+    fetchTokenBalances();
+    createRows();
   }, [refreshDashboard]);
-  const rows = [
-    createData(
-      "Matic",
-      userBalance?.toString().slice(0, 6),
-      maticUSDPrice?.toString().slice(0, 4),
-      100
-    ),
-    // createData("Bitcoin", "$2300", "$5.0", 41.9),
-    // createData("Bitcoin", "$2300", "$5.0", 41.9),
-  ];
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -78,7 +108,7 @@ function Portfolio() {
               <ClipLoader color="#8a919e" />
             ) : (
               <div className={styles.balanceValue}>
-                ${userBalance * maticUSDPrice}
+                ${totalPortfolioBalance}
               </div>
             )}
           </div>

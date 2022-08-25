@@ -4,6 +4,7 @@ import { FaCheck, FaBitcoin } from "react-icons/fa";
 import { BiCopy } from "react-icons/bi";
 import UserContext from "../../../../Utils/context";
 import styles from "./receivecrypto.module.css";
+import Image from "next/image";
 
 function ReceiveCrypto({ userWalletAddress }) {
   const [copied, setCopied] = useState(false);
@@ -20,15 +21,18 @@ function ReceiveCrypto({ userWalletAddress }) {
         <div className={styles.row}>
           <div className={styles.coinSelectList}>
             <div className={styles.icon}>
-              <FaBitcoin />
+            <Image
+          src={require(`../../../../assets/matic.png`)}
+          alt={`matic logo`}
+        />
             </div>
-            <div className={styles.coinName}>Bitcoin</div>
+            <div className={styles.coinName}>Matic</div>
           </div>
         </div>
         <Divider />
         <div className={styles.row}>
           <div>
-            <div className={styles.title}>Bitcoin</div>
+            <div className={styles.title}>Polygon Mumbai</div>
             <div className={styles.address}>{loggedInUserDetails?.walletAddress}</div>
           </div>
           <div

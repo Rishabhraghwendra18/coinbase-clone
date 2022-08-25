@@ -16,6 +16,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import UserContext from "../../../Utils/context";
 import BalanceChart from "../BalanceChart";
 import styles from "./index.module.css";
+import {BsCoin} from "react-icons/bs";
 import maticLogo from "../../../assets/matic.png";
 
 function Portfolio() {
@@ -93,6 +94,14 @@ function Portfolio() {
       ...rows
     ]);
   };
+  const renderImage = (coinName) =>{
+    try {
+      return <Image src={require(`../../../assets/${coinName?.toLowerCase()}.png`)} alt={`${coinName} logo`} />
+    } catch (error) {
+      console.error(`${coinName} logo not found`);
+      return <BsCoin/>
+    }
+  }
   useEffect(()=>{
     createRows();
   },[loggedInUserDetails.tokenBalance])
@@ -148,7 +157,7 @@ function Portfolio() {
                         <TableCell component="th" scope="row">
                           <div className={styles.nameCol}>
                             <div className={styles.coinIcon}>
-                              <Image src={maticLogo} alt="matic logo" />
+                              {renderImage(row.name)}
                             </div>
                             <div>
                               <div className={styles.primary}>{row.name}</div>

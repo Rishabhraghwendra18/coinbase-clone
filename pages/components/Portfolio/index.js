@@ -64,12 +64,15 @@ function Portfolio() {
   const createRows = () => {
     let rows = [];
     const portfolioValue = maticUSDPrice;
+    let totalBalance;
     if (loggedInUserDetails.tokenBalance) {
-      rows = loggedInUserDetails.tokenBalance?.map((e) => {
+      const userBalance =  loggedInUserDetails.tokenBalance?.map(e=>e.balance / 1000000000000000000);
+      totalBalance = userBalance.reduce((sum,e)=>sum+e,0)+parseFloat(loggedInUserDetails.userBalance).toFixed(0);
+      rows = loggedInUserDetails.tokenBalance?.map((e,index) => {
         const token = {
           name: e.name,
-          balance: e.balance / 1000000000000000000,
-          allocation: 100,
+          balance: userBalance[index],
+          allocation:  ((userBalance[index]/totalBalance)*100).toFixed(0),
         };
         if (e.name === "USDC" || e.name === "USDT") {
           token.price = 1;
@@ -87,9 +90,9 @@ function Portfolio() {
     setRows([
       createData(
         "Matic",
-        userBalance?.toString().slice(0, 6),
+        loggedInUserDetails.userBalance?.toString().slice(0, 6),
         maticUSDPrice?.toString().slice(0, 4),
-        100
+        ((loggedInUserDetails.userBalance/totalBalance)*100).toFixed(0)
       ),
       ...rows
     ]);
@@ -119,7 +122,7 @@ function Portfolio() {
               <ClipLoader color="#8a919e" />
             ) : (
               <div className={styles.balanceValue}>
-                ${totalPortfolioBalance}
+                ${totalPortfolioBalance.toFixed(2)}
               </div>
             )}
           </div>

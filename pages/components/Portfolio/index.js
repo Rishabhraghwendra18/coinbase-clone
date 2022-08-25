@@ -93,10 +93,12 @@ function Portfolio() {
       ...rows
     ]);
   };
+  useEffect(()=>{
+    createRows();
+  },[loggedInUserDetails.tokenBalance])
   useEffect(() => {
     fetchTokenPrice();
     fetchTokenBalances();
-    createRows();
   }, [refreshDashboard]);
   return (
     <div className={styles.container}>

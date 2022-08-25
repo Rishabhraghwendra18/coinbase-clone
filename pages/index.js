@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
+import { Moralis } from "moralis";
 // import { useAddress, useDisconnect, useMetamask } from "@thirdweb-dev/react";
 import { useMoralis } from "react-moralis";
 import UserContext from "../Utils/context";
@@ -42,6 +43,11 @@ export default function Home() {
         .catch(function (error) {
           console.log(error);
         });
+        const chainId = Moralis.chainId;
+        if(chainId !== "0x13881"){
+          await Moralis.switchNetwork(0x13881);
+        }
+        // console.log("current chain: ",chainId);
     }
   };
 

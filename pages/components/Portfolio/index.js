@@ -122,7 +122,7 @@ function Portfolio() {
               <ClipLoader color="#8a919e" />
             ) : (
               <div className={styles.balanceValue}>
-                ${totalPortfolioBalance.toFixed(2)}
+                ${totalPortfolioBalance?.toFixed(2)}
               </div>
             )}
           </div>

@@ -62,7 +62,7 @@ export default function Home() {
   };
   useEffect(() => {
     return () => logOut();
-  }, []);
+  }, [logOut]);
   return (
     <UserContext.Provider
       value={{

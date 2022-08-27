@@ -5,12 +5,12 @@ import { Moralis } from "moralis";
 // import { useAddress, useDisconnect, useMetamask } from "@thirdweb-dev/react";
 import { useMoralis } from "react-moralis";
 import UserContext from "../Utils/context";
-import Navbar from "./components/Navbar";
+import Navbar from "../components/Navbar";
 import styles from "../styles/Home.module.css";
-import Portfolio from "./components/Portfolio";
-import Promo from "./components/Promo";
-import SideBar from "./components/SideBar";
-import MobileView from "./components/MobileView";
+import Portfolio from "../components/Portfolio";
+import Promo from "../components/Promo";
+import SideBar from "../components/SideBar";
+import MobileView from "../components/MobileView";
 
 const CustomeButton = styled(Button)(() => ({
   border: "1px solid #282b2f",

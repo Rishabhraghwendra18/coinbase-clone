@@ -13,11 +13,10 @@ import {
 } from "@mui/material";
 import Image from "next/image";
 import ClipLoader from "react-spinners/ClipLoader";
-import UserContext from "../../../Utils/context";
+import UserContext from "../../Utils/context";
 import BalanceChart from "../BalanceChart";
 import styles from "./index.module.css";
 import { BsCoin } from "react-icons/bs";
-import maticLogo from "../../../assets/matic.png";
 
 function Portfolio() {
   const [isFirstRender, setIsFirstRender] = useState(true);
@@ -105,7 +104,7 @@ function Portfolio() {
     try {
       return (
         <Image
-          src={require(`../../../assets/${coinName?.toLowerCase()}.png`)}
+          src={require(`../../assets/${coinName?.toLowerCase()}.png`)}
           alt={`${coinName} logo`}
         />
       );

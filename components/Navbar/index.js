@@ -1,6 +1,6 @@
 import React,{useState, useContext} from "react";
 import { Box, AppBar, Toolbar, Typography, Button } from "@mui/material";
-import UserContext from "../../../Utils/context";
+import UserContext from "../../Utils/context";
 import styles from "./index.module.css";
 import ModalForSendAndReceive from "./Modal";
 

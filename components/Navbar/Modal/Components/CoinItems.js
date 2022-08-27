@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { FaBitcoin, FaCheck } from "react-icons/fa";
 import { BsCoin } from "react-icons/bs";
 import Image from "next/image";
-import UserContext from "../../../../../Utils/context";
+import UserContext from "../../../../Utils/context";
 import styles from "./coinItems.module.css";
 
 function CoinItems({ selectedToken, setSelectedToken, setShowCoinSelector }) {
@@ -22,7 +22,7 @@ function CoinItems({ selectedToken, setSelectedToken, setShowCoinSelector }) {
     try {
       return (
         <Image
-          src={require(`../../../../../assets/${coinName?.toLowerCase()}.png`)}
+          src={require(`../../../../assets/${coinName?.toLowerCase()}.png`)}
           alt={`${coinName} logo`}
         />
       );

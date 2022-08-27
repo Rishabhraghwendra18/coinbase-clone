@@ -2,7 +2,7 @@ import React, { useState,useContext } from "react";
 import { Divider } from "@mui/material";
 import { FaCheck, FaBitcoin } from "react-icons/fa";
 import { BiCopy } from "react-icons/bi";
-import UserContext from "../../../../Utils/context";
+import UserContext from "../../..//Utils/context";
 import styles from "./receivecrypto.module.css";
 import Image from "next/image";
 
@@ -25,7 +25,7 @@ function ReceiveCrypto({ userWalletAddress }) {
           <div className={styles.coinSelectList}>
             <div className={styles.icon}>
             <Image
-          src={require(`../../../../assets/matic.png`)}
+          src={require(`../../../assets/matic.png`)}
           alt={`matic logo`}
         />
             </div>

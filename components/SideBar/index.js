@@ -1,6 +1,6 @@
 import React,{useState} from "react";
 import styles from "./index.module.css";
-import coinBaseLogo from "../../../assets/cb-logo.png";
+import coinBaseLogo from "../../assets/cb-logo.png";
 import {navItems} from './navItems';
 import Image from "next/image";
 function SideBar() {

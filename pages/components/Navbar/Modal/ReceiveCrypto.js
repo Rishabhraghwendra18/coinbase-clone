@@ -17,6 +17,7 @@ function ReceiveCrypto({ userWalletAddress }) {
             src={`https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=${loggedInUserDetails?.walletAddress}`}
             width={250}
             height={250}
+            alt="User receiving QR code"
           />
         </div>
         <Divider />

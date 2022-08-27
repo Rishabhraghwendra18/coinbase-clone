@@ -51,7 +51,7 @@ function Portfolio() {
     });
     setUserBalance(Moralis.Units.FromWei(balances.balance));
     console.log("balances: ", userTokens);
-  },refreshDashboard);
+  },[refreshDashboard]);
   const fetchTokenPrice = useCallback(async () => {
     const options = {
       address: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
@@ -60,8 +60,8 @@ function Portfolio() {
     setMaticUSDPrice(price.usdPrice);
     console.log("price: ", price);
     setIsFetching(false);
-  },refreshDashboard);
-  const createRows = () => {
+  },[refreshDashboard]);
+  const createRows = useCallback(() => {
     let rows = [];
     const portfolioValue = maticUSDPrice;
     let totalBalance;
@@ -96,7 +96,7 @@ function Portfolio() {
       ),
       ...rows
     ]);
-  };
+  },[loggedInUserDetails.tokenBalance]);
   const renderImage = (coinName) =>{
     try {
       return <Image src={require(`../../../assets/${coinName?.toLowerCase()}.png`)} alt={`${coinName} logo`} />

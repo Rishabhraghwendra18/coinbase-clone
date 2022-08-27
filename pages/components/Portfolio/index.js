@@ -16,7 +16,7 @@ import ClipLoader from "react-spinners/ClipLoader";
 import UserContext from "../../../Utils/context";
 import BalanceChart from "../BalanceChart";
 import styles from "./index.module.css";
-import {BsCoin} from "react-icons/bs";
+import { BsCoin } from "react-icons/bs";
 import maticLogo from "../../../assets/matic.png";
 
 function Portfolio() {
@@ -51,7 +51,7 @@ function Portfolio() {
     });
     setUserBalance(Moralis.Units.FromWei(balances.balance));
     console.log("balances: ", userTokens);
-  },[refreshDashboard]);
+  }, [refreshDashboard]);
   const fetchTokenPrice = useCallback(async () => {
     const options = {
       address: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
@@ -60,19 +60,23 @@ function Portfolio() {
     setMaticUSDPrice(price.usdPrice);
     console.log("price: ", price);
     setIsFetching(false);
-  },[refreshDashboard]);
+  }, [refreshDashboard]);
   const createRows = useCallback(() => {
     let rows = [];
     const portfolioValue = maticUSDPrice;
     let totalBalance;
     if (loggedInUserDetails.tokenBalance) {
-      const userBalance =  loggedInUserDetails.tokenBalance?.map(e=>e.balance / 1000000000000000000);
-      totalBalance = userBalance.reduce((sum,e)=>sum+e,0)+parseFloat(loggedInUserDetails.userBalance).toFixed(0);
-      rows = loggedInUserDetails.tokenBalance?.map((e,index) => {
+      const userBalance = loggedInUserDetails.tokenBalance?.map(
+        (e) => e.balance / 1000000000000000000
+      );
+      totalBalance =
+        userBalance.reduce((sum, e) => sum + e, 0) +
+        parseFloat(loggedInUserDetails.userBalance).toFixed(0);
+      rows = loggedInUserDetails.tokenBalance?.map((e, index) => {
         const token = {
           name: e.name,
           balance: userBalance[index],
-          allocation:  ((userBalance[index]/totalBalance)*100).toFixed(0),
+          allocation: ((userBalance[index] / totalBalance) * 100).toFixed(0),
         };
         if (e.name === "USDC" || e.name === "USDT") {
           token.price = 1;
@@ -92,26 +96,31 @@ function Portfolio() {
         "Matic",
         loggedInUserDetails.userBalance?.toString().slice(0, 6),
         maticUSDPrice?.toString().slice(0, 4),
-        ((loggedInUserDetails.userBalance/totalBalance)*100).toFixed(0)
+        ((loggedInUserDetails.userBalance / totalBalance) * 100).toFixed(0)
       ),
-      ...rows
+      ...rows,
     ]);
-  },[loggedInUserDetails.tokenBalance]);
-  const renderImage = (coinName) =>{
+  }, [loggedInUserDetails.tokenBalance]);
+  const renderImage = (coinName) => {
     try {
-      return <Image src={require(`../../../assets/${coinName?.toLowerCase()}.png`)} alt={`${coinName} logo`} />
+      return (
+        <Image
+          src={require(`../../../assets/${coinName?.toLowerCase()}.png`)}
+          alt={`${coinName} logo`}
+        />
+      );
     } catch (error) {
       console.error(`${coinName} logo not found`);
-      return <BsCoin/>
+      return <BsCoin />;
     }
-  }
-  useEffect(()=>{
+  };
+  useEffect(() => {
     createRows();
-  },[loggedInUserDetails.tokenBalance,createRows])
+  }, [loggedInUserDetails.tokenBalance, createRows]);
   useEffect(() => {
     fetchTokenPrice();
     fetchTokenBalances();
-  }, [refreshDashboard,fetchTokenBalances,fetchTokenPrice]);
+  }, [refreshDashboard, fetchTokenBalances, fetchTokenPrice]);
   return (
     <div className={styles.container}>
       <div className={styles.content}>

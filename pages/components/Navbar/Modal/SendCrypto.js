@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useWeb3Transfer } from "react-moralis";
 import { Moralis } from "moralis";
 import { FaWallet, FaBitcoin } from "react-icons/fa";
-import {BsCoin} from "react-icons/bs";
+import { BsCoin } from "react-icons/bs";
 import UserContext from "../../../../Utils/context";
 import styles from "./sendcrypto.module.css";
 import CoinSelector from "./Components";
@@ -44,14 +44,13 @@ function SendCrypto() {
         : Moralis.Units.ETH("0.0"),
       receiver: receiverAddress,
     };
-    console.log("options: ",options)
+    console.log("options: ", options);
     if (selectedToken.type) {
-      console.log("executing this")
-      options.type=selectedToken.type;
-    }
-    else{
-      options.type="erc20";
-      options.contractAddress=selectedToken.address;
+      console.log("executing this");
+      options.type = selectedToken.type;
+    } else {
+      options.type = "erc20";
+      options.contractAddress = selectedToken.address;
     }
     const transaction = await Moralis.transfer(options);
     const result = await transaction.wait();

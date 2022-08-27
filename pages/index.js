@@ -59,7 +59,7 @@ export default function Home() {
     await logout();
     setUserWalletAddress();
     console.log("logged out");
-  },[isAuthenticated,logout]);
+  }, [logout]);
   useEffect(() => {
     return () => logOut();
   }, [logOut]);

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useWeb3Transfer } from "react-moralis";
 import { Moralis } from "moralis";
 import { FaWallet, FaBitcoin } from "react-icons/fa";
+import {BsCoin} from "react-icons/bs";
 import UserContext from "../../../../Utils/context";
 import styles from "./sendcrypto.module.css";
 import CoinSelector from "./Components";

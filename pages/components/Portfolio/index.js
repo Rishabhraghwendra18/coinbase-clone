@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useCallback, useMemo } from "react";
+import React, { useEffect, useState, useContext, useCallback } from "react";
 import { useMoralisWeb3Api } from "react-moralis";
 import { Moralis } from "moralis";
 import {
@@ -37,7 +37,7 @@ function Portfolio() {
   }
   const Web3Api = useMoralisWeb3Api();
 
-  const fetchTokenBalances = async () => {
+  const fetchTokenBalances = useCallback(async () => {
     setIsFetching(true);
     const option = {
       chain: "mumbai",
@@ -51,8 +51,8 @@ function Portfolio() {
     });
     setUserBalance(Moralis.Units.FromWei(balances.balance));
     console.log("balances: ", userTokens);
-  };
-  const fetchTokenPrice = async () => {
+  },refreshDashboard);
+  const fetchTokenPrice = useCallback(async () => {
     const options = {
       address: "0x7D1AfA7B718fb893dB30A3aBc0Cfc608AaCfeBB0",
     };
@@ -60,7 +60,7 @@ function Portfolio() {
     setMaticUSDPrice(price.usdPrice);
     console.log("price: ", price);
     setIsFetching(false);
-  };
+  },refreshDashboard);
   const createRows = () => {
     let rows = [];
     const portfolioValue = maticUSDPrice;

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Moralis } from "moralis";
@@ -55,11 +55,11 @@ export default function Home() {
     }
   };
 
-  const logOut = async () => {
+  const logOut = useCallback(async () => {
     await logout();
     setUserWalletAddress();
     console.log("logged out");
-  };
+  },isAuthenticated);
   useEffect(() => {
     return () => logOut();
   }, [logOut]);

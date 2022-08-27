@@ -10,6 +10,7 @@ import styles from "../styles/Home.module.css";
 import Portfolio from "./components/Portfolio";
 import Promo from "./components/Promo";
 import SideBar from "./components/SideBar";
+import MobileView from "./components/MobileView";
 
 const CustomeButton = styled(Button)(() => ({
   border: "1px solid #282b2f",
@@ -27,8 +28,8 @@ const CustomeButton = styled(Button)(() => ({
 export default function Home() {
   const { authenticate, isAuthenticated, logout } = useMoralis();
   const [userWalletAddress, setUserWalletAddress] = useState();
-  const [loggedInUserDetails,setLoggedInUserDetails] = useState({});
-  const [refreshDashboard,setRefreshDashboard] = useState(false);
+  const [loggedInUserDetails, setLoggedInUserDetails] = useState({});
+  const [refreshDashboard, setRefreshDashboard] = useState(false);
   // const connectWithMetamask = useMetamask();
   // const walletAddress = useAddress();
 
@@ -38,16 +39,19 @@ export default function Home() {
         .then(function (user) {
           console.log("logged in user:", user);
           console.log(user?.get("ethAddress"));
-          setLoggedInUserDetails({...loggedInUserDetails,walletAddress:user?.get("ethAddress")});
+          setLoggedInUserDetails({
+            ...loggedInUserDetails,
+            walletAddress: user?.get("ethAddress"),
+          });
         })
         .catch(function (error) {
           console.log(error);
         });
-        const chainId = Moralis.chainId;
-        if(chainId !== "0x13881"){
-          await Moralis.switchNetwork(0x13881);
-        }
-        // console.log("current chain: ",chainId);
+      const chainId = Moralis.chainId;
+      if (chainId !== "0x13881") {
+        await Moralis.switchNetwork(0x13881);
+      }
+      // console.log("current chain: ",chainId);
     }
   };
 
@@ -60,29 +64,39 @@ export default function Home() {
     return () => logOut();
   }, []);
   return (
-    <UserContext.Provider value={{loggedInUserDetails,setLoggedInUserDetails,refreshDashboard,setRefreshDashboard}}>
-      {loggedInUserDetails.walletAddress ? (
-        <div className={styles.container}>
-          <SideBar />
-          <div className={styles.mainContainer}>
-            <Navbar userWalletAddress={userWalletAddress} />
-            <div className={styles.main}>
-              <Portfolio />
-              <Promo />
+    <UserContext.Provider
+      value={{
+        loggedInUserDetails,
+        setLoggedInUserDetails,
+        refreshDashboard,
+        setRefreshDashboard,
+      }}
+    >
+      <MobileView />
+      <div className={styles.mainDiv}>
+        {loggedInUserDetails.walletAddress ? (
+          <div className={styles.container}>
+            <SideBar />
+            <div className={styles.mainContainer}>
+              <Navbar userWalletAddress={userWalletAddress} />
+              <div className={styles.main}>
+                <Portfolio />
+                <Promo />
+              </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <div className={styles.walletConnet}>
-          <CustomeButton variant="contained" onClick={login}>
-            Connect Wallet
-          </CustomeButton>
-          <div className={styles.details}>
-            You need Chrome to be
-            <br /> able to run this app.
+        ) : (
+          <div className={styles.walletConnet}>
+            <CustomeButton variant="contained" onClick={login}>
+              Connect Wallet
+            </CustomeButton>
+            <div className={styles.details}>
+              You need Chrome to be
+              <br /> able to run this app.
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </UserContext.Provider>
   );
 }
